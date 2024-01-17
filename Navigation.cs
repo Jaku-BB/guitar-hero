@@ -8,12 +8,7 @@ public class Navigation
     private readonly string[] _data = { "Start a new game", "History", "Quit" };
     private int _navigationChoice;
 
-    public Navigation()
-    {
-        RunLoop();
-    }
-
-    private void RunLoop()
+    public void Initialize()
     {
         while (true)
         {
