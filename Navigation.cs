@@ -2,11 +2,11 @@ namespace GuitarHero;
 
 public class Navigation
 {
-    private readonly string[] _data = { "Start a new game", "History", "Quit" };
-    private int _navigationChoice;
     private const int StartNewGameIndex = 0;
     private const int HistoryIndex = 1;
     private const int QuitIndex = 2;
+    private readonly string[] _data = { "Start a new game", "History", "Quit" };
+    private int _navigationChoice;
 
     public Navigation()
     {
@@ -20,9 +20,8 @@ public class Navigation
             Render();
 
             var key = Console.ReadKey(true).Key;
-            
+
             if (HandleKeyPress(key))
-            {
                 switch (_navigationChoice)
                 {
                     case StartNewGameIndex:
@@ -35,7 +34,6 @@ public class Navigation
                         // Quit
                         return;
                 }
-            }
         }
     }
 
