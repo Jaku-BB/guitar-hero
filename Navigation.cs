@@ -19,7 +19,7 @@ public class Navigation
         {
             Render();
 
-            var key = Console.ReadKey(true).Key;
+            ConsoleKey key = Console.ReadKey(true).Key;
 
             if (HandleKeyPress(key))
                 switch (_navigationChoice)
