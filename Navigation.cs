@@ -20,8 +20,11 @@ public class Navigation
                 switch (_navigationChoice)
                 {
                     case StartNewGameIndex:
-                        // Start a new game
-                        break;
+                        Game game = new();
+                        game.Initialize();
+
+                        // TODO: change to 'break' when 'Game' is done
+                        return;
                     case HistoryIndex:
                         // History
                         break;
