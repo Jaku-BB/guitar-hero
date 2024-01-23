@@ -50,7 +50,7 @@ public class Game
 
     private void GenerateNote()
     {
-        if (_random.Next(0, 2) != 0) return;
+        if (_loopCount != 0 && _random.Next(0, 2) != 0) return;
 
         int index = _random.Next(0, _keys.Length);
         _notes.Add(new Note(_horizontalPositions[index], _keys[index]));
