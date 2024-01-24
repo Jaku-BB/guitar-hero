@@ -10,10 +10,12 @@ public class Navigation
 
     public void Initialize()
     {
+        Render();
+
         while (true)
         {
-            Render();
-
+            if (!Console.KeyAvailable) continue;
+            
             ConsoleKey key = Console.ReadKey(true).Key;
 
             if (HandleKeyPress(key))
@@ -32,6 +34,8 @@ public class Navigation
                         // Quit
                         return;
                 }
+            
+            Render();
         }
     }
 
