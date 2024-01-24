@@ -10,12 +10,10 @@ public class Navigation
 
     public void Initialize()
     {
-        Render();
-
         while (true)
         {
-            if (!Console.KeyAvailable) continue;
-            
+            Render();
+
             ConsoleKey key = Console.ReadKey(true).Key;
 
             if (HandleKeyPress(key))
@@ -25,8 +23,7 @@ public class Navigation
                         Game game = new();
                         game.Initialize();
 
-                        // TODO: change to 'break' when 'Game' is done
-                        return;
+                        break;
                     case HistoryIndex:
                         // History
                         break;
@@ -34,8 +31,6 @@ public class Navigation
                         // Quit
                         return;
                 }
-            
-            Render();
         }
     }
 

@@ -2,7 +2,7 @@ namespace GuitarHero;
 
 public class Game
 {
-    // Make sure it's an odd number
+    // To properly center the board, 'Width' must be an odd number
     private const int Width = 13;
     private const int Height = 8;
     private const int ClickableHeight = Height - 2;
@@ -15,6 +15,8 @@ public class Game
 
     public void Initialize()
     {
+        Console.Clear();
+
         Thread keyPressThread = new(HandleKeyPress);
         keyPressThread.Start();
 
@@ -26,7 +28,7 @@ public class Game
             Thread.Sleep(interval);
 
             if (_loopCount % 10 == 0)
-                interval = Math.Max(300, interval - 100);
+                interval = Math.Max(200, interval - 100);
 
             _loopCount++;
         }
@@ -34,14 +36,13 @@ public class Game
 
     private void Render()
     {
-        Console.Clear();
-
         for (int row = 0; row < Height; row++)
         {
             bool isLastIndex = row == Height - 1;
 
             for (int keyIndex = 0; keyIndex < _keys.Length; keyIndex++)
-                Utilities.WriteAt(_horizontalPositions[keyIndex], row, isLastIndex ? _keys[keyIndex].ToString() : "|");
+                Utilities.WriteAt(_horizontalPositions[keyIndex], row,
+                    isLastIndex ? _keys[keyIndex].ToString() : "|");
         }
 
         _notes.ForEach(note => Utilities.WriteAt(note.X, note.Y, "X"));
@@ -55,13 +56,17 @@ public class Game
         _notes.Add(new Note(_horizontalPositions[index], _keys[index]));
     }
 
-    private void MoveOrRemoveNotes()
+    private void MoveNotes()
     {
         try
         {
             Note lowestNote = _notes.OrderBy(note => note.Y).Last();
 
-            if (lowestNote.Y >= ClickableHeight) _notes.Remove(lowestNote);
+            if (lowestNote.Y >= ClickableHeight)
+            {
+                End();
+                return;
+            }
 
             _notes.ForEach(note => note.Y++);
         }
@@ -84,18 +89,37 @@ public class Game
 
             ConsoleKey key = Console.ReadKey(true).Key;
 
-            if (!_keys.Contains(key))
+            try
             {
-                End();
-                return;
-            }
+                Note lowestNote = _notes.OrderBy(note => note.Y).Last();
 
-            if (_notes.Count == 0) continue;
+                if (!_keys.Contains(key) || lowestNote.Y != ClickableHeight)
+                {
+                    End();
+                    return;
+                }
+
+                if (key == lowestNote.Key)
+                {
+                    _notes.Remove(lowestNote);
+                }
+                else
+                {
+                    End();
+                    return;
+                }
+            }
+            catch (Exception error)
+            {
+                if (error is InvalidOperationException)
+                    continue;
+
+                throw;
+            }
 
             Thread.Sleep(interval);
         }
     }
-
 
     private void End()
     {
@@ -108,7 +132,10 @@ public class Game
     private void Update()
     {
         GenerateNote();
+        MoveNotes();
+
+        if (!_isRunning) return;
+
         Render();
-        MoveOrRemoveNotes();
     }
 }
