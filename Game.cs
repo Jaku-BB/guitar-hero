@@ -12,6 +12,7 @@ public class Game
     private readonly Random _random = new();
     private bool _isRunning = true;
     private int _loopCount;
+    private int _score;
 
     public void Initialize()
     {
@@ -102,6 +103,7 @@ public class Game
                 if (key == lowestNote.Key)
                 {
                     _notes.Remove(lowestNote);
+                    _score++;
                 }
                 else
                 {
@@ -123,10 +125,15 @@ public class Game
 
     private void End()
     {
+        const int timeToWait = 2000;
+
         _isRunning = false;
+        History.AddScore(_score);
 
         Console.Clear();
-        Console.WriteLine("Game over!");
+        Console.WriteLine($"Game over! Your score: {_score}");
+
+        Thread.Sleep(timeToWait);
     }
 
     private void Update()

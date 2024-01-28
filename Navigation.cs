@@ -25,10 +25,10 @@ public class Navigation
 
                         break;
                     case HistoryIndex:
-                        // History
+                        History.Render();
+
                         break;
                     case QuitIndex:
-                        // Quit
                         return;
                 }
         }
