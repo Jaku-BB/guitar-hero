@@ -11,7 +11,7 @@ public static class History
         Directory.CreateDirectory(Path.GetDirectoryName(HistoryFilePath)!);
 
         using StreamWriter file = new(HistoryFilePath, true);
-        file.WriteLine($"Date: {DateTime.Now.Date} | Score: {score}");
+        file.WriteLine($"Date: {DateTime.Now} | Score: {score}");
     }
 
     public static void Render()
@@ -30,7 +30,7 @@ public static class History
             Console.WriteLine("No history yet!");
         }
 
-        Console.WriteLine("Press ENTER to go back to navigation...");
+        Console.WriteLine("\nPress ENTER to go back...");
 
         while (Console.ReadKey(true).Key != ConsoleKey.Enter)
         {
