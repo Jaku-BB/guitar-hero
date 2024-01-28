@@ -33,6 +33,12 @@ public class Game
 
             _loopCount++;
         }
+
+        Console.WriteLine("\nPress ENTER to go back...");
+
+        while (Console.ReadKey(true).Key != ConsoleKey.Enter)
+        {
+        }
     }
 
     private void Render()
@@ -125,15 +131,11 @@ public class Game
 
     private void End()
     {
-        const int timeToWait = 2000;
-
         _isRunning = false;
         History.AddScore(_score);
 
         Console.Clear();
-        Console.WriteLine($"Game over! Your score: {_score}");
-
-        Thread.Sleep(timeToWait);
+        Console.WriteLine($"Game over! Your score is {_score}!");
     }
 
     private void Update()
