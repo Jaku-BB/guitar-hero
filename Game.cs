@@ -23,13 +23,16 @@ public class Game
 
         int interval = 1000;
 
+        const int intervalUpdate = 100;
+        const int minimumInterval = 200;
+
         while (_isRunning)
         {
             Update();
             Thread.Sleep(interval);
 
             if (_loopCount % 10 == 0)
-                interval = Math.Max(200, interval - 100);
+                interval = Math.Max(minimumInterval, interval - intervalUpdate);
 
             _loopCount++;
         }
