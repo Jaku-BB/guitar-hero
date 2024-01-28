@@ -9,6 +9,7 @@ public class Game
     private readonly int[] _horizontalPositions = { 0, Width / 2, Width - 1 };
     private readonly ConsoleKey[] _keys = { ConsoleKey.A, ConsoleKey.S, ConsoleKey.D };
     private readonly List<Note> _notes = new();
+    private readonly object _notesLock = new();
     private readonly Random _random = new();
     private bool _isRunning = true;
     private int _loopCount;
@@ -60,32 +61,38 @@ public class Game
 
     private void GenerateNote()
     {
-        if (_loopCount != 0 && _random.Next(0, 2) != 0) return;
+        lock (_notesLock)
+        {
+            if (_loopCount != 0 && _random.Next(0, 2) != 0) return;
 
-        int index = _random.Next(0, _keys.Length);
-        _notes.Add(new Note(_horizontalPositions[index], _keys[index]));
+            int index = _random.Next(0, _keys.Length);
+            _notes.Add(new Note(_horizontalPositions[index], _keys[index]));
+        }
     }
 
     private void MoveNotes()
     {
-        try
+        lock (_notesLock)
         {
-            Note lowestNote = _notes.OrderBy(note => note.Y).Last();
-
-            if (lowestNote.Y >= ClickableHeight)
+            try
             {
-                End();
-                return;
+                Note lowestNote = _notes.OrderBy(note => note.Y).Last();
+
+                if (lowestNote.Y >= ClickableHeight)
+                {
+                    End();
+                    return;
+                }
+
+                _notes.ForEach(note => note.Y++);
             }
+            catch (Exception error)
+            {
+                if (error is InvalidOperationException)
+                    return;
 
-            _notes.ForEach(note => note.Y++);
-        }
-        catch (Exception error)
-        {
-            if (error is InvalidOperationException)
-                return;
-
-            throw;
+                throw;
+            }
         }
     }
 
@@ -101,23 +108,26 @@ public class Game
 
             try
             {
-                Note lowestNote = _notes.OrderBy(note => note.Y).Last();
+                lock (_notesLock)
+                {
+                    Note lowestNote = _notes.OrderBy(note => note.Y).Last();
 
-                if (!_keys.Contains(key) || lowestNote.Y != ClickableHeight)
-                {
-                    End();
-                    return;
-                }
+                    if (!_keys.Contains(key) || lowestNote.Y != ClickableHeight)
+                    {
+                        End();
+                        return;
+                    }
 
-                if (key == lowestNote.Key)
-                {
-                    _notes.Remove(lowestNote);
-                    _score++;
-                }
-                else
-                {
-                    End();
-                    return;
+                    if (key == lowestNote.Key)
+                    {
+                        _notes.Remove(lowestNote);
+                        _score++;
+                    }
+                    else
+                    {
+                        End();
+                        return;
+                    }
                 }
             }
             catch (Exception error)
