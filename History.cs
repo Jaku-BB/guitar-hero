@@ -30,14 +30,10 @@ public static class History
             Console.WriteLine("No history yet!");
         }
 
-        Console.WriteLine("Press Escape to go back to navigation.");
+        Console.WriteLine("Press ENTER to go back to navigation...");
 
-        while (!Console.KeyAvailable)
+        while (Console.ReadKey(true).Key != ConsoleKey.Enter)
         {
-            ConsoleKey key = Console.ReadKey(true).Key;
-
-            if (key == ConsoleKey.Escape)
-                return;
         }
     }
 }
