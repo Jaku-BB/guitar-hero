@@ -9,7 +9,7 @@ public class Game
     private readonly int[] _horizontalPositions = { 0, Width / 2, Width - 1 };
     private readonly ConsoleKey[] _keys = { ConsoleKey.A, ConsoleKey.S, ConsoleKey.D };
     private readonly List<Note> _notes = new();
-    private readonly object _notesLock = new();
+    private readonly object _lock = new();
     private readonly Random _random = new();
     private bool _isRunning = true;
     private int _loopCount;
@@ -58,7 +58,7 @@ public class Game
 
     private void GenerateNote()
     {
-        lock (_notesLock)
+        lock (_lock)
         {
             if (_loopCount != 0 && _random.Next(0, 2) != 0) return;
 
@@ -69,7 +69,7 @@ public class Game
 
     private void MoveNotes()
     {
-        lock (_notesLock)
+        lock (_lock)
         {
             try
             {
@@ -105,7 +105,7 @@ public class Game
 
             try
             {
-                lock (_notesLock)
+                lock (_lock)
                 {
                     Note lowestNote = _notes.OrderBy(note => note.Y).Last();
 
