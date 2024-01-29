@@ -32,6 +32,7 @@ public class Game
             Update();
             Thread.Sleep(interval);
 
+            // Every 10th iteration, decrease the game speed by 'intervalUpdate', but not below 'minimumInterval'
             if (_loopCount % 10 == 0)
                 interval = Math.Max(minimumInterval, interval - intervalUpdate);
 
