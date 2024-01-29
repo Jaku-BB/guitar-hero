@@ -39,11 +39,7 @@ public class Game
             _loopCount++;
         }
 
-        Console.WriteLine("\nPress ENTER to go back...");
-
-        while (Console.ReadKey(true).Key != ConsoleKey.Enter)
-        {
-        }
+        Utilities.WaitForKeyPress(ConsoleKey.Enter);
     }
 
     private void Render()

@@ -7,4 +7,13 @@ public static class Utilities
         Console.SetCursorPosition(x, y);
         Console.Write(text);
     }
+
+    public static void WaitForKeyPress(ConsoleKey key)
+    {
+        Console.WriteLine($"\nPress {key} to continue...");
+
+        while (Console.ReadKey(true).Key != key)
+        {
+        }
+    }
 }

@@ -30,10 +30,6 @@ public static class History
             Console.WriteLine("No history yet!");
         }
 
-        Console.WriteLine("\nPress ENTER to go back...");
-
-        while (Console.ReadKey(true).Key != ConsoleKey.Enter)
-        {
-        }
+        Utilities.WaitForKeyPress(ConsoleKey.Enter);
     }
 }
