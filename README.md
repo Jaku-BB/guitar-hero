@@ -18,7 +18,7 @@ klawiszami. Gdy w którejś z nich, bezpośrednio nad klawiszem, znajdzie się z
 niej klawisz. Czas na reakcję wynosi domyślnie sekundę i zmniejsza się wraz z upływem czasu gry. Za każdą poprawną
 reakcję gracz otrzymuje punkt, a pomyłka lub brak reakcji skutkuje zakończeniem gry.
 
-## Dokumentacja techniczna
+## Struktura projektu
 
 Projekt wykorzystuje dwa wątki: główny oraz wątek dodatkowy `keyPressThread`, odpowiadający za obsługę wejścia z
 klawiatury i adekwatne reagowanie na nie. Synchronizacja dostępu do zasobów współdzielonych jest zrealizowana za pomocą
